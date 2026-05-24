@@ -58,11 +58,26 @@
 					<Selector
 						id={`${selectedModelIdx}`}
 						placeholder={$i18n.t('Select a model')}
-						items={$models.map((model) => ({
-							value: model.id,
-							label: model.name,
-							model: model
-						}))}
+						items={$models.map((model) => {
+							const match = model.id.match(/^([^.]+)\.(.+)$/);
+							let label = model.name || model.id;
+
+							if (match) {
+								const prefix = match[1];
+								const rest = match[2];
+								const isVersion = /^[0-9]$/.test(prefix.slice(-1)) && /^[0-9]/.test(rest);
+
+								if (!isVersion) {
+									label = `${prefix} | ${rest}`;
+								}
+							}
+
+							return {
+								value: model.id,
+								label,
+								model: model
+							};
+						})}
 						{pinModelHandler}
 						bind:value={selectedModel}
 					/>

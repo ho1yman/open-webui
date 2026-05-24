@@ -1026,7 +1026,6 @@
 				await setupSocket($config.features?.enable_websocket ?? true);
 
 				const currentUrl = `${window.location.pathname}${window.location.search}`;
-				const encodedUrl = encodeURIComponent(currentUrl);
 
 				if (localStorage.token) {
 					// Get Session User Info
@@ -1061,19 +1060,22 @@
 					} else {
 						// Redirect Invalid Session User to /auth Page
 						localStorage.removeItem('token');
-						await goto(`/auth?redirect=${encodedUrl}`);
+						await goto(`/auth?redirect=${encodeURIComponent(currentUrl)}`);
 					}
 				} else {
 					// Don't redirect if we're already on the auth page
 					// Needed because we pass in tokens from OAuth logins via URL fragments
-					if ($page.url.pathname !== '/auth') {
-						await goto(`/auth?redirect=${encodedUrl}`);
+					if (!['/auth', '/auth-original'].includes($page.url.pathname)) {
+						await goto(`/auth?redirect=${encodeURIComponent(currentUrl)}`);
 					}
 				}
 			}
 		} else {
-			// Redirect to /error when Backend Not Detected
-			await goto(`/error`);
+			// Allow auth routes to render even when backend auto-detection fails.
+			if (!['/auth', '/auth-original', '/auth-temp'].includes($page.url.pathname)) {
+				// Redirect to /error when Backend Not Detected
+				await goto(`/error`);
+			}
 		}
 
 		await tick();

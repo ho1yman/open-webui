@@ -1,0 +1,29 @@
+services:
+
+  open-webui:
+    image: openwebui/open-webui:0.9.5   # openwebui/open-webui:0.9.2  # ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
+    container_name: open-webui
+    dns:
+      - 223.5.5.5
+      - 223.6.6.6
+      - 202.101.172.35
+    network_mode: host  # bridge
+    #ports:
+#      - ${OPEN_WEBUI_PORT-3000}:8080
+      #- 9180:8080
+    volumes:
+      - ./data:/app/backend/data
+      - ./build:/app/build   # 前端版本迭代
+    environment:
+      - 'PORT=9180'
+      #- 'OLLAMA_BASE_URL=http://ollama:11434'
+      - 'WEBUI_SECRET_KEY='
+      - 'PUBLIC_LOGIN_PAGE_VARIANT=auth-temp' # auth-temp | original 已取消该策略
+      - 'PUBLIC_AUTH_TEMP_BG_MEDIA=/background/landing.mp4' # static 目录下资源，如 /background/login.jpg
+      - 'PUBLIC_AUTH_TEMP_API_BASE_URL=/api/v1' # 默认可用相对路径；需要跨域时再改为完整 URL
+      # 尝试禁用后端 HTTPS 证书校验（是否生效取决于 open-webui 内部实现）
+      - 'PYTHONHTTPSVERIFY=0'
+      - 'NODE_TLS_REJECT_UNAUTHORIZED=0'
+#    extra_hosts:
+#      - host.docker.internal:host-gateway
+    restart: unless-stopped
