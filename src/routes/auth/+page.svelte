@@ -243,6 +243,7 @@
 										class="glass-input {mode === 'signup' ? 'signup-email-input' : ''}"
 										autocomplete="email"
 										name="email"
+										maxlength="28"
 										placeholder={$i18n.t('Enter Your Email')}
 										required
 									/>
@@ -260,6 +261,7 @@
 										placeholder={$i18n.t('Enter Your Password')}
 										autocomplete={mode === 'signup' ? 'new-password' : 'current-password'}
 										name="password"
+										maxlength="28"
 										required
 									/>
 									<button
@@ -331,6 +333,7 @@
 										placeholder={$i18n.t('Confirm Your Password')}
 										autocomplete="new-password"
 										name="confirm-password"
+										maxlength="28"
 										screenReader={false}
 										required
 									/>

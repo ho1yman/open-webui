@@ -324,6 +324,7 @@
 													class="my-0.5 w-full text-sm outline-hidden bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-600"
 													autocomplete="email"
 													name="email"
+													maxlength="28"
 													placeholder={$i18n.t('Enter Your Email')}
 													required
 												/>
@@ -342,6 +343,7 @@
 												placeholder={$i18n.t('Enter Your Password')}
 												autocomplete={mode === 'signup' ? 'new-password' : 'current-password'}
 												name="password"
+												maxlength="28"
 												screenReader={true}
 												required
 												aria-required="true"
@@ -363,6 +365,7 @@
 													placeholder={$i18n.t('Confirm Your Password')}
 													autocomplete="new-password"
 													name="confirm-password"
+													maxlength="28"
 													required
 												/>
 											</div>
