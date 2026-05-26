@@ -969,6 +969,13 @@
 				$socket?.on('events', chatEventHandler);
 				$socket?.on('events:channel', channelEventHandler);
 
+				// Refresh config with authenticated session context after login/session restore.
+				try {
+					await config.set(await getBackendConfig());
+				} catch (error) {
+					console.error('Error refreshing backend config:', error);
+				}
+
 				const userSettings = await getUserSettings(localStorage.token);
 				if (userSettings) {
 					settings.set(userSettings.ui);
